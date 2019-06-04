@@ -86,14 +86,55 @@ class ChartView extends Component {
 
 
           if (locationSalesTableHeader.length - 1 < weekNumber) {
-            let date = location.days[i].date.toString();
+            let date = location.days[i].date;
             // Mon Apr 01 2019
             // 012345678901234
+            date = date.toString();
             let month = date.substring(4, 7);
+            let monthValue = 0;
+            if (month === "Jan") {
+              monthValue = 0;
+            } else if (month === "Feb") {
+              monthValue = 1;
+            } else if (month === "Mar") {
+              monthValue = 2;
+            } else if (month === "Apr") {
+              monthValue = 3;
+            } else if (month === "May") {
+              monthValue = 4;
+            } else if (month === "Jun") {
+              monthValue = 5;
+            } else if (month === "Jul") {
+              monthValue = 6;
+            } else if (month === "Aug") {
+              monthValue = 7;
+            } else if (month === "Sep") {
+              monthValue = 8;
+            } else if (month === "Oct") {
+              monthValue = 9;
+            } else if (month === "Nov") {
+              monthValue = 10;
+            } else if (month === "Dec") {
+              monthValue = 11;
+            } else {
+              console.log("ERROR")
+            }
             let day = parseInt(date.substring(8, 10));
-            let endDay = day + 6;
-            // let year = parseInt(date.substring(11, 15));
-            let dateLabel = month + " " + day + "-" + endDay;
+            let year = parseInt(date.substring(11, 15));
+            let startDate = new Date(year, monthValue, day, 0, 0, 0, 0)
+            let startDay = startDate.getDay();
+            let startMonth = startDate.getMonth();
+            let endDate = new Date();
+            endDate.setDate(startDate.getDate() + 6);
+            let endDay = endDate.getDay();
+            let endMonth = endDate.getMonth();
+            console.log(startDate);
+            console.log(endDate);
+            let dateLabel = startMonth + "/" + startDay + "-";
+            if (endMonth !== startMonth) {
+              dateLabel += endMonth + "/";
+            }
+            dateLabel += endDay;
             // the cleanest way to include a line break was to allowHtml in the table options and have the break character
             let headerList = 'Week ' + weekNumber.toFixed(0) + '<br>' + dateLabel;
             locationSalesTableHeader.push({ type: 'number', label: headerList});
