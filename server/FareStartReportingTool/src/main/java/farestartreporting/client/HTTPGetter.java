@@ -112,14 +112,14 @@ public class HTTPGetter {
         CompletableFuture<Response> r1 = getNetSalesData(locationGroupID, dateOfBusiness);
         CompletableFuture<Response> r2 = getCheckCount(locationGroupID, dateOfBusiness);
         CompletableFuture<Response> r3 = getGuestCount(locationGroupID, dateOfBusiness);
-        CompletableFuture<Response> r4 = getLaborCost(locationGroupID, dateOfBusiness);
+        // CompletableFuture<Response> r4 = getLaborCost(locationGroupID, dateOfBusiness);
 
-        CompletableFuture.allOf(r1, r2, r3, r4).join();
+        CompletableFuture.allOf(r1, r2, r3).join();
 
         String netSalesDataString = r1.get().getResponseBody();
         String checkCountRes = r2.get().getResponseBody();
         String guestCountRes = r3.get().getResponseBody();
-        String laborCostString = r4.get().getResponseBody();
+        // String laborCostString = r4.get().getResponseBody();
 
         // Sales
         Double netSales = parseValueFieldName(netSalesDataString, "current");
@@ -140,9 +140,9 @@ public class HTTPGetter {
         Double sameDayLastWeekGuestCount = parseSameDayLWData(guestCountRes);
 
         // Labor cost
-        Double laborCost = parseValueFieldName(laborCostString, "current");
+        // Double laborCost = parseValueFieldName(laborCostString, "current");
 
-        Double sameDayLastWeeklaborCost = parseSameDayLWData(laborCostString);
+        // Double sameDayLastWeeklaborCost = parseSameDayLWData(laborCostString);
 
         long checkCountLong = checkCount.longValue();
         long sameDayLastWeekCheckCountL = sameDayLastWeekCheckCount.longValue();
@@ -160,8 +160,8 @@ public class HTTPGetter {
 //        System.out.println("Getting the real SDLW Check count " + sameDayLastWeekCheckCount);
 //        System.out.println("Getting the real guestCountLong " + guestCountLong);
 //        System.out.println("Getting the real SDLW guestCountLong " + sameDayLastWeekGuestCount);
-
-        return new DailyData(name, netSales, sameDayLastWeekSales, budgetedSales, checkCountLong, sameDayLastWeekCheckCountL, guestCountLong, sameDayLastWeekGuestCountL, laborCost);
+        return new DailyData(name, netSales, sameDayLastWeekSales, budgetedSales, checkCountLong, sameDayLastWeekCheckCountL, guestCountLong, sameDayLastWeekGuestCountL, netSales);
+        // return new DailyData(name, netSales, sameDayLastWeekSales, budgetedSales, checkCountLong, sameDayLastWeekCheckCountL, guestCountLong, sameDayLastWeekGuestCountL, laborCost);
     }
 
 
